@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MvcBlog.Models.Article>
+
+@{
+    Layout = null;
+}
+<h4>En Çok Okunan Makaleler</h4>
+<div class="row">
+    <div class="col-lg-12">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a href="/Home/ArticleDetails/@item.ArticleId">@item.Header (@item.Read)</a></li>
+            }
+        </ul>
+
+    </div>
+</div>

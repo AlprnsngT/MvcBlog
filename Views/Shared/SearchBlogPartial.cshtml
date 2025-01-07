@@ -1,0 +1,13 @@
+﻿
+<h4>Blog Ara</h4>
+@using (Html.BeginForm("SearchBlog", "Home", FormMethod.Post, new { enctype="multipart/form"}))
+{
+    <div class="input-group">
+        <input id="Search" name="Search" type="text" class="form-control">
+        <span class="input-group-btn">
+            <button value="Search" class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+}

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MvcBlog.Models.Article>
+
+@{
+    ViewBag.Title = "SearchBlog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-8">
+    <h2>Aradığınız İçerikteki Articleler</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Header)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Read)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    <a href="/Home/ArticleDetails/@item.ArticleId">@Html.DisplayFor(modelItem => item.Header)</a>
+                </td>
+               
+                <td>
+                    <img class="img-circle img-responsive" src="@item.User.Foto" width="50" alt="@item.Header" />
+                    <a href="/User/Index/@item.User.UserId">@item.User.UserName</a> 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Read)
+                </td>
+                
+            </tr>
+        }
+
+    </table>
+</div>

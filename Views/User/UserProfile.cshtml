@@ -1,0 +1,61 @@
+﻿@model MvcBlog.Models.User
+
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Üye Profil</h2>
+
+<div class="col-md-8">
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Yetkisi: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Authority.Authority1)
+        </dd>
+
+
+        <dt>
+           Eposta: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        
+
+        <dt>
+            Ad Soyad: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            Fotoğraf: 
+        </dt>
+
+        <dd>
+            <img src="@Model.Foto" class="img-circle img-responsive" alt="@Model.FullName" />
+        </dd>
+
+    </dl>
+    <h4>Son Eklediği Makaleler</h4>
+    <div class="col-md-8">
+        @foreach (var item in Model.Article.OrderByDescending(m => m.ArticleId).Take(5))
+        {
+            <li><a href="/Home/ArticleDetails/@item.ArticleId">@item.Header</a></li>
+        }
+
+    </div>
+
+</div>
+
+

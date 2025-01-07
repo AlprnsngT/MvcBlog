@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MvcBlog.Models.Comment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Yorumlar</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Article.Header)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.UserNamei)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Article.Header)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserNamei)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.ActionLink("Düzenle", "Edit", new { id=item.CommentId }) |
+            @Html.ActionLink("Detay", "Details", new { id=item.CommentId }) |
+            @Html.ActionLink("Sil", "Delete", new { id=item.CommentId })
+        </td>
+    </tr>
+}
+
+</table>

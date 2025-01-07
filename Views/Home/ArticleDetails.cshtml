@@ -1,0 +1,114 @@
+﻿@model MvcBlog.Models.Article
+@using Microsoft.Web.Helpers
+@{
+    ViewBag.Title = "MakaleDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-8">
+    <h1>@Model.Header</h1>
+    <!-- Author -->
+    <p class="lead">
+        <img class="img-circle img-responsive" src="@Model.User.Foto" alt="@Model.User.FullName" />
+        <a href="/Uye/UyeProfil/@Model.UserId">@Model.User.FullName</a>
+    </p>
+    <hr>
+    <!-- Date/Time -->
+    <p>
+        <span class="glyphicon glyphicon-time"></span> @string.Format("{0:MMMM yyyy}", Model.Date)
+        <span class="glyphicon glyphicon-edit"></span> @Model.Category.CategoryName (@Model.Category.Article.Count())
+        <span class="glyphicon glyphicon-comment"></span> @Model.Comment.Count()
+    </p>
+    <hr>
+    <!-- Preview Image -->
+    <img class="img-responsive" src="@Model.Foto" alt="@Model.Header">
+    <hr>
+    <p class="lead">
+        @Html.Raw(Model.Content)
+    </p>
+    <div class="well">
+        @foreach (var item in Model.Tickets)
+            {
+            <span class="bootstrap-tagsinput"> @item.TicketName </span>
+        }
+    </div>
+    <hr>
+    <div class="well">
+        @LinkShare.GetHtml("Blog Makale", linkSites: new[] { LinkShareSite.Facebook, LinkShareSite.Twitter })
+    </div>
+    <hr>
+    @if (Session["uyeid"] != null)
+    {
+        <div class="well">
+            <h4>Yorum</h4>
+            <form role="form">
+                <div class="form-group">
+                    <textarea id="yorum" typeof="text" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" id="gonder" class="btn btn-primary">Yorum Yap</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <h2>Makaleye yorum yapmak için kullanıcı girişi yapmalısınız</h2>
+            <p><a href="/Uye/Login/">Giriş Yap</a></p>
+    }
+
+    <div class="media">
+        @foreach (var item in Model.Comment.ToList())
+            {
+            <div class="well">
+                <a class="pull-left" href="#">
+                    <img width="50" class="img-circle" src="@item.User.Foto" alt="@item.User.FullName">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        @item.User.UserName
+                        <small>@item.Date</small>
+                    </h4>
+                    @item.Content - @if (Convert.ToInt32(Session["uyeid"]) == item.UserId)
+                    {
+                        <a class="btn btn-danger" href="/Home/YorumSil/@item.CommentId">Sil</a>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <script src="~/Content/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+        $("#gonder").click(function () {
+            var yorumunuz = $("#yorum").val();
+            $.ajax({
+                url: '/Home/CreateComment/',
+                data: {yorum:yorumunuz, Makaleid:@Model.ArticleId},
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    alert("Başarılı "+ yorumunuz);}
+                });
+        });
+    })
+
+
+
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url: '/Home/CreateRead/',
+            data:{Makaleid: @Model.MakaleId},
+            type: 'POST',
+        });
+    })
+    </script>
+
+</div>
